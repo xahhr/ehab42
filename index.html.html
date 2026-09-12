@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)https://xahhr.github.io/case201010/ -->
+<html lang="ar" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>النيابة الإدارية — إيهاب الغريب — نظام قيد القضايا</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+:root{
+  --gold:#C9A84C;--gold-light:#E8C97A;--gold-dark:#9A7A2E;
+  --navy:#0D1B2A;--navy2:#1A2E42;--navy3:#243B55;
+  --cream:#F8F4EC;--cream2:#F0E9D8;
+  --text:#1A1A2E;--text-soft:#4A5568;--text-faint:#8A95A3;
+  --card:#FFFFFF;--border:#E2D9C8;--border-soft:#EDE6D8;
+  --green-bg:#EAF3DE;--green-tx:#3B6D11;
+  --blue-bg:#E6F1FB;--blue-tx:#185FA5;
+  --amber-bg:#FAEEDA;--amber-tx:#854F0B;
+  --pink-bg:#FBEAF0;--pink-tx:#993556;
+  --red-bg:#FCEBEB;--red-tx:#A32D2D;
+  --purple-bg:#EEEDFE;--purple-tx:#3C3489;
+  --orange-bg:#FFF0E0;--orange-tx:#8B4A00;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Tajawal',Tahoma,Arial,sans-serif;direction:rtl;background:var(--cream);color:var(--text);line-height:1.6;min-height:100vh}
+
+/* ===== HERO HEADER ===== */
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 50%,var(--navy3) 100%);
+  padding:0;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.08) 0%,transparent 60%),
+    radial-gradient(ellipse at 80% 20%,rgba(201,168,76,.06) 0%,transparent 50%);
+}
+.hero::after{
+  content:'⚖';position:absolute;
+  left:-20px;top:50%;transform:translateY(-50%);
+  font-size:200px;opacity:.04;
+  line-height:1;pointer-events:none;
+}
+.hero-inner{
+  position:relative;z-index:1;
+  max-width:1150px;margin:0 auto;
+  padding:22px 20px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.hero-brand{display:flex;align-items:center;gap:16px}
+.hero-icon{
+  width:56px;height:56px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  box-shadow:0 4px 20px rgba(201,168,76,.4);
+  flex-shrink:0;
+}
+.hero-text{}
+.hero-name{
+  font-size:11px;font-weight:500;letter-spacing:.12em;
+  color:var(--gold-light);text-transform:uppercase;margin-bottom:2px;
+}
+.hero-title{font-size:20px;font-weight:700;color:#fff;line-height:1.2}
+.hero-sub{font-size:12px;color:rgba(255,255,255,.5);margin-top:3px}
+.hero-divider{width:1px;height:44px;background:rgba(201,168,76,.25);margin:0 4px}
+.hero-stat-mini{text-align:center;padding:0 10px}
+.hero-stat-mini .v{font-size:22px;font-weight:700;color:var(--gold-light)}
+.hero-stat-mini .l{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.05em}
+.hero-actions{display:flex;gap:8px;flex-wrap:wrap}
+.hero-sub-bar{
+  background:rgba(0,0,0,.2);
+  border-top:1px solid rgba(201,168,76,.15);
+  padding:8px 20px;
+  font-size:12px;color:rgba(255,255,255,.45);
+  text-align:center;
+}
+#sub-line{display:inline}
+
+/* ===== WRAP ===== */
+.wrap{max-width:1150px;margin:0 auto;padding:20px 16px 60px}
+
+/* ===== STATS GRID ===== */
+.stats-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:18px}
+.stat{
+  background:var(--card);
+  border:1px solid var(--border-soft);
+  border-radius:12px;padding:14px 14px;
+  position:relative;overflow:hidden;
+  transition:transform .15s,box-shadow .15s;
+}
+.stat:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.stat::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:var(--border-soft);border-radius:0 12px 12px 0}
+.stat.hl{background:linear-gradient(135deg,#EAF0FB,#F0F5FF)}
+.stat.hl::before{background:linear-gradient(180deg,var(--blue-tx),#3A7BD5)}
+.stat.warn::before{background:linear-gradient(180deg,var(--amber-tx),#E8A020)}
+.stat.gold{background:linear-gradient(135deg,#FDF8ED,#FBF0D5)}
+.stat.gold::before{background:linear-gradient(180deg,var(--gold),var(--gold-dark))}
+.stat .val{font-size:24px;font-weight:700;color:var(--text)}
+.stat.hl .val{color:var(--blue-tx)}.stat.warn .val{color:var(--amber-tx)}.stat.gold .val{color:var(--gold-dark)}
+.stat .lbl{font-size:11px;margin-top:3px;color:var(--text-faint);font-weight:500}
+
+/* ===== SECTION DIVIDER ===== */
+.section-divider{
+  display:flex;align-items:center;gap:12px;
+  margin:22px 0 14px;
+}
+.section-divider::before,.section-divider::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+}
+.section-divider span{
+  font-size:11px;font-weight:600;letter-spacing:.08em;
+  color:var(--gold-dark);text-transform:uppercase;white-space:nowrap;
+  padding:3px 12px;
+  border:1px solid var(--gold-light);
+  border-radius:20px;
+  background:linear-gradient(135deg,#FDF8ED,#FAF0D5);
+}
+
+/* ===== TABS ===== */
+.tabs{display:flex;gap:0;margin-bottom:18px;border-bottom:2px solid var(--border)}
+.tab{padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--text-faint);transition:.15s;letter-spacing:.02em}
+.tab.active{color:var(--navy2);border-bottom-color:var(--gold)}
+.tab:hover:not(.active){color:var(--text)}
+
+/* ===== VIEW ===== */
+.view{display:none}.view.active{display:block}
+
+/* ===== CARD ===== */
+.card{
+  background:var(--card);
+  border:1px solid var(--border-soft);
+  border-radius:14px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.04);
+}
+
+/* ===== TOOLBAR ===== */
+.toolbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.toolbar input,.toolbar select{
+  padding:8px 12px;font-size:13px;
+  border:1px solid var(--border);border-radius:10px;
+  background:var(--card);color:var(--text);
+  font-family:'Tajawal',sans-serif;
+  transition:border .15s;
+}
+.toolbar input:focus,.toolbar select:focus{outline:none;border-color:var(--gold)}
+.toolbar input{flex:1;min-width:160px}
+
+/* ===== BUTTONS ===== */
+.btn{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:8px 16px;font-size:13px;
+  border:1px solid var(--border);border-radius:10px;
+  background:var(--card);color:var(--text);
+  cursor:pointer;white-space:nowrap;font-weight:600;
+  font-family:'Tajawal',sans-serif;
+  transition:.15s;
+}
+.btn:hover{background:var(--cream2);border-color:var(--border)}
+.btn.primary{
+  background:linear-gradient(135deg,var(--navy2),var(--navy));
+  color:#fff;border-color:var(--navy);
+}
+.btn.primary:hover{background:linear-gradient(135deg,var(--navy3),var(--navy2))}
+.btn.gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color:#fff;border-color:var(--gold-dark);
+}
+.btn.gold:hover{opacity:.9}
+.btn.sm{padding:4px 10px;font-size:12px;border-radius:8px}
+.btn.danger{color:var(--red-tx);border-color:#f0c4c4}
+.btn.danger:hover{background:var(--red-bg)}
+
+/* ===== TABLE ===== */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{
+  background:linear-gradient(180deg,var(--cream),var(--cream2));
+  padding:10px 12px;text-align:right;font-weight:700;font-size:11px;
+  color:var(--navy2);border-bottom:2px solid var(--border);
+  white-space:nowrap;letter-spacing:.04em;
+}
+td{padding:10px 12px;border-bottom:1px solid var(--border-soft);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:background .1s}
+tbody tr:hover td{background:linear-gradient(90deg,var(--cream),#FDF8F0)}
+
+/* ===== BADGES ===== */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
+.b-hafz{background:var(--green-bg);color:var(--green-tx)}
+.b-hafz2{background:var(--blue-bg);color:var(--blue-tx)}
+.b-tahqiq{background:var(--amber-bg);color:var(--amber-tx)}
+.b-ard{background:var(--purple-bg);color:var(--purple-tx)}
+.b-ikhtisas{background:var(--pink-bg);color:var(--pink-tx)}
+.b-jashni{background:var(--orange-bg);color:var(--orange-tx)}
+.b-jazaa{background:var(--red-bg);color:var(--red-tx)}
+.b-dawaa{background:#F0E8FF;color:#5B21B6}
+.day-badge{font-size:11px;background:var(--cream2);color:var(--text-soft);padding:2px 8px;border-radius:6px;border:1px solid var(--border-soft)}
+.entity-tag{font-size:11px;color:var(--text-soft);font-weight:500}
+
+/* ===== PAGES ===== */
+.pages{display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:12px;color:var(--text-faint);border-top:1px solid var(--border-soft);background:var(--cream)}
+.page-num{width:36px;height:36px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:9px}
+.page-num.active{background:var(--navy2);color:#fff;border-color:var(--navy2);box-shadow:0 3px 10px rgba(13,27,42,.2)}
+.page-summary{margin-right:auto;font-size:11px;color:var(--text-faint)}
+.no-data{text-align:center;padding:36px;color:var(--text-faint);font-size:14px}
+
+/* ===== MODAL ===== */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(13,27,42,.6);backdrop-filter:blur(4px);align-items:flex-start;justify-content:center;z-index:1000;padding:3vh 16px;overflow-y:auto}
+.modal-overlay.show{display:flex}
+.modal{
+  background:var(--card);border-radius:18px;padding:24px;
+  width:100%;max-width:680px;max-height:94vh;overflow-y:auto;
+  margin:auto;
+  box-shadow:0 20px 60px rgba(13,27,42,.25);
+  border:1px solid var(--border);
+}
+.modal h3{font-size:17px;font-weight:700;margin-bottom:16px;color:var(--navy);display:flex;align-items:center;gap:8px}
+.modal h3::before{content:'⚖';font-size:20px}
+.form-row{margin-bottom:12px}
+.form-row label{display:block;font-size:11px;color:var(--text-soft);margin-bottom:5px;font-weight:700;letter-spacing:.04em}
+.form-row input,.form-row select,.form-row textarea{
+  width:100%;padding:8px 12px;font-size:13px;
+  border:1px solid var(--border);border-radius:10px;
+  background:var(--cream);color:var(--text);
+  font-family:'Tajawal',sans-serif;
+  transition:border .15s,background .15s;
+}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{outline:none;border-color:var(--gold);background:#fff}
+.form-row textarea{resize:vertical;min-height:52px}
+.modal-actions{display:flex;gap:8px;margin-top:18px;align-items:center}
+
+/* ===== EVENTS ===== */
+.ev-section{border-top:2px solid var(--cream2);margin-top:16px;padding-top:16px}
+.ev-section-title{font-size:12px;font-weight:700;color:var(--navy2);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;letter-spacing:.04em}
+.ev-list{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.ev-item{display:grid;grid-template-columns:90px 130px 120px 1fr auto;gap:6px;align-items:center;background:var(--cream);padding:8px 10px;border-radius:10px;font-size:12px;border:1px solid var(--border-soft)}
+.ev-item input,.ev-item select{font-size:12px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;background:#fff;color:var(--text);font-family:'Tajawal',sans-serif}
+.ev-item .rm{cursor:pointer;color:var(--red-tx);font-size:16px;text-align:center;user-select:none;padding:0 4px}
+.ev-col-hdr{display:grid;grid-template-columns:90px 130px 120px 1fr auto;gap:6px;font-size:10px;color:var(--text-faint);padding:0 10px;margin-bottom:4px;font-weight:600;letter-spacing:.04em}
+
+/* ===== REQUIREES ===== */
+.req-section{border-top:2px solid var(--cream2);margin-top:16px;padding-top:16px}
+.req-row{display:grid;grid-template-columns:1.3fr 1fr 0.9fr 0.9fr auto;gap:6px;align-items:center;margin-bottom:6px;background:var(--cream);padding:8px 10px;border-radius:10px;border:1px solid var(--border-soft)}
+.req-row input,.req-row select{font-size:12px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;background:#fff;color:var(--text);font-family:'Tajawal',sans-serif}
+.req-row .rm{cursor:pointer;color:var(--red-tx);font-size:16px;text-align:center;user-select:none}
+
+/* ===== TIMELINE ===== */
+.tl-wrap{padding:6px 0}
+.tl-item{display:flex;gap:12px;margin-bottom:14px;position:relative}
+.tl-item:not(:last-child)::after{content:'';position:absolute;right:10px;top:24px;bottom:-14px;width:2px;background:linear-gradient(180deg,var(--border),transparent)}
+.tl-dot{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;border:2px solid var(--card);box-shadow:0 0 0 2px var(--border);margin-top:2px}
+.tl-body{flex:1;background:var(--cream);border-radius:10px;padding:9px 13px;font-size:12px;border:1px solid var(--border-soft)}
+.tl-date{font-size:11px;color:var(--text-faint);margin-bottom:2px}
+.tl-type{font-weight:700;color:var(--navy2);margin-bottom:2px}
+.tl-note{color:var(--text-soft)}
+
+/* ===== MONTHLY ===== */
+.month-section{background:var(--card);border:1px solid var(--border-soft);border-radius:14px;padding:18px 20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.month-title{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;color:var(--navy)}
+.month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-bottom:14px}
+.m-stat{background:var(--cream);border-radius:10px;padding:10px 12px;border:1px solid var(--border-soft)}
+.m-stat .v{font-size:22px;font-weight:700}.m-stat .l{font-size:11px;color:var(--text-faint);margin-top:2px;font-weight:500}
+.dept-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px}
+.dept-lbl{min-width:160px;color:var(--text);font-weight:500}
+.dept-bar{flex:1;height:7px;background:var(--cream2);border-radius:4px;overflow:hidden}
+.dept-fill{height:100%;background:linear-gradient(90deg,var(--navy2),var(--blue-tx));border-radius:4px;transition:width .5s}
+.dept-num{min-width:36px;text-align:left;color:var(--text-faint);font-size:11px}
+
+/* ===== AGENDA ===== */
+.agenda-card{border:1px solid var(--border-soft);border-radius:12px;padding:14px 16px;margin-bottom:10px;background:var(--card);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.agenda-card.urgent{border-color:#f0a8a8;background:#fffaf9}
+.agenda-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.agenda-head .id{font-weight:700;font-size:14px;color:var(--navy)}
+.agenda-head .date{font-size:12px;color:var(--blue-tx);background:var(--blue-bg);padding:4px 12px;border-radius:20px;white-space:nowrap;font-weight:700}
+.agenda-card.urgent .date{background:var(--red-bg);color:var(--red-tx)}
+.agenda-subj{font-size:12px;color:var(--text-soft);margin-bottom:9px}
+.req-item-view{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:6px 10px;background:var(--cream);border-radius:8px;margin-bottom:4px}
+.att-state{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
+.att-yes{background:var(--green-bg);color:var(--green-tx)}.att-no{background:var(--red-bg);color:var(--red-tx)}.att-pending{background:var(--amber-bg);color:var(--amber-tx)}
+
+/* ===== AUTO MSG ===== */
+#auto-msg{font-size:12px;color:var(--green-tx);background:var(--green-bg);padding:6px 12px;border-radius:8px;margin-bottom:10px;display:none;border:1px solid #8BC34A}
+
+@media(max-width:700px){
+  .wrap{padding:12px 10px 40px}.hero-inner{padding:16px 12px}.hero-brand{gap:10px}.hero-icon{width:46px;height:46px}.hero-title{font-size:17px}.hero-actions{width:100%}.hero-actions .btn{flex:1;justify-content:center;padding:8px 9px;font-size:12px}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:7px}.stat{padding:10px}.stat .val{font-size:20px}.tabs{overflow-x:auto;white-space:nowrap}.tab{padding:9px 13px}
+  .toolbar{display:grid;grid-template-columns:1fr 1fr}.toolbar input{grid-column:1/-1;width:100%}.toolbar select,.toolbar .btn{width:100%;min-width:0;justify-content:center}
+  .table-wrap{overflow:visible}.card{background:transparent;border:0;box-shadow:none}table,tbody{display:block}thead{display:none}
+  #tbl-body tr{display:block;background:#fff;border:1px solid var(--border-soft);border-radius:13px;margin-bottom:10px;padding:10px 12px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+  #tbl-body td{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--border-soft);white-space:normal!important;max-width:none!important;text-align:left}
+  #tbl-body td::before{content:attr(data-label);font-size:11px;font-weight:700;color:var(--text-faint);white-space:nowrap;text-align:right}
+  #tbl-body td:nth-child(2){display:block;text-align:right;font-weight:600;font-size:14px;padding:8px 0}#tbl-body td:nth-child(2)::before{display:block;margin-bottom:3px}
+  #tbl-body td:last-child{border:0;justify-content:flex-end;padding-top:9px}#tbl-body td:last-child::before{display:none}#tbl-body td:last-child .btn{width:100%;justify-content:center;background:var(--cream)}
+  .pages{justify-content:center;gap:6px;border:0;background:transparent;padding:10px 0;flex-wrap:wrap}.page-num{width:38px;height:38px}.page-summary{width:100%;margin:2px 0 0;text-align:center}
+  .req-row,.ev-item{grid-template-columns:1fr}.modal{padding:17px;border-radius:14px}.modal-actions{position:sticky;bottom:-17px;background:#fff;padding:12px 0 2px;z-index:2}
+}
+@media print{.hero-actions,.tabs,.toolbar,.btn,.modal-overlay{display:none!important}.view{display:block!important}body{background:#fff}.card{box-shadow:none;border:1px solid #ccc}}
+.toast{position:fixed;left:20px;bottom:20px;z-index:3000;background:var(--navy);color:#fff;padding:11px 16px;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.22);font-size:13px;opacity:0;transform:translateY(14px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:translateY(0)}
+.btn:disabled{opacity:.45;cursor:not-allowed}.kbd{font:11px Tahoma;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:1px 5px}
+</style>
+</head>
+<body>
+<!-- HERO HEADER -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-brand">
+      <div class="hero-icon">⚖</div>
+      <div class="hero-text">
+        <div class="hero-name">النيابة الإدارية &nbsp;·&nbsp; إيهاب الغريب</div>
+        <div class="hero-title">نظام قيد القضايا</div>
+        <div class="hero-sub">إدارة ومتابعة القضايا والجلسات</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0">
+      <div class="hero-stat-mini" id="hs-total"><div class="v">26</div><div class="l">إجمالي</div></div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat-mini" id="hs-pending"><div class="v">3</div><div class="l">تحقيق</div></div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat-mini" id="hs-rate"><div class="v">88%</div><div class="l">إنجاز</div></div>
+    </div>
+    <div class="hero-actions">
+      <button class="btn" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.15)" onclick="importJson()">⬆ استيراد</button>
+      <button class="btn" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.15)" onclick="exportJson()">⬇ نسخة احتياطية</button>
+      <button class="btn gold" onclick="openAdd()">＋ قضية جديدة</button>
+    </div>
+  </div>
+  <div class="hero-sub-bar"><span id="sub-line">إجمالي 26 قضية — 3 قيد التحقيق — 0 عرض — 0 جشني — نسبة الإنجاز 88%</span></div>
+</div>
+
+<div class="wrap">
+<div class="stats-grid" id="stats-grid"><div class="stat"><div class="val">26</div><div class="lbl">إجمالي القضايا</div></div><div class="stat warn"><div class="val">3</div><div class="lbl">قيد التحقيق</div></div><div class="stat hl"><div class="val">0</div><div class="lbl">عرض (المذكرة)</div></div><div class="stat warn"><div class="val">0</div><div class="lbl">جشني معلق</div></div><div class="stat"><div class="val">23</div><div class="lbl">تم التصرف</div></div><div class="stat hl"><div class="val">88%</div><div class="lbl">نسبة الإنجاز</div></div><div class="stat"><div class="val">55 يوم</div><div class="lbl">متوسط المدة</div></div></div>
+
+<div class="section-divider"><span>تنبيهات المتابعة</span></div>
+<div id="alerts-cont"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px"><div style="background:var(--amber-bg);border:1px solid #EF9F27;border-radius:12px;padding:14px 16px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font-size:20px">⏱</span><div><div style="font-size:20px;font-weight:700;color:var(--amber-tx)">3</div><div style="font-size:11px;color:var(--amber-tx)">قضية تجاوزت 90 يوماً بلا تصرف</div></div></div><div style="display:flex;flex-direction:column;gap:4px"><div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.5);border-radius:6px;padding:5px 9px;font-size:12px"><span><strong>#22</strong> — متغير المكاني رقم 607580 بناحية الش...</span><span style="font-size:11px;font-weight:700;color:var(--amber-tx);white-space:nowrap;margin-right:8px">255 يوم</span><button class="btn sm" onclick="openEdit(22)" style="padding:2px 7px;font-size:10px">✎</button></div><div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.5);border-radius:6px;padding:5px 9px;font-size:12px"><span><strong>#27</strong> — افراد 771 لسنة 2025 الزراعة انقطاع ...</span><span style="font-size:11px;font-weight:700;color:var(--amber-tx);white-space:nowrap;margin-right:8px">255 يوم</span><button class="btn sm" onclick="openEdit(27)" style="padding:2px 7px;font-size:10px">✎</button></div><div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.5);border-radius:6px;padding:5px 9px;font-size:12px"><span><strong>#226</strong> — افراد انقطاع احمد فريد توفيق الهلبا...</span><span style="font-size:11px;font-weight:700;color:var(--amber-tx);white-space:nowrap;margin-right:8px">196 يوم</span><button class="btn sm" onclick="openEdit(226)" style="padding:2px 7px;font-size:10px">✎</button></div></div></div><div style="background:var(--green-bg);border:1px solid #8BC34A;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px"><span style="font-size:24px">✓</span><div style="font-size:13px;color:var(--green-tx);font-weight:500">لا توجد قضايا من سنوات سابقة مفتوحة</div></div></div></div>
+<div class="section-divider"><span>سجل القضايا</span></div>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('cases',this)">القضايا</div>
+  <div class="tab" onclick="switchTab('agenda',this)">الجلسات القادمة</div>
+  <div class="tab" onclick="switchTab('monthly',this)">الإحصائية الشهرية</div>
+</div>
+
+<!-- CASES TAB -->
+<div id="view-cases" class="view active">
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="بحث في الرقم أو الموضوع..." oninput="render()">
+    <select id="flt-entity" onchange="render()"><option value="">كل الجهات</option><option value="الضرائب العقارية">الضرائب العقارية</option><option value="داخلي">داخلي</option><option value="وزارة التربية والتعليم والتعليم الفني">وزارة التربية والتعليم والتعليم الفني</option><option value="وزارة التنمية المحلية">وزارة التنمية المحلية</option><option value="وزارة الزراعة واستصلاح الأراضي">وزارة الزراعة واستصلاح الأراضي</option><option value="وزارة الصحة والسكان">وزارة الصحة والسكان</option><option value="وزارة المالية">وزارة المالية</option><option value="وزارة الموارد المائية والري">وزارة الموارد المائية والري</option></select>
+    <select id="flt-disp" onchange="render()">
+      <option value="">كل التصرفات</option>
+      <option value="تحقيق">قيد التحقيق</option>
+      <option value="عرض">عرض</option>
+      <option value="حفظ إداري">حفظ إداري</option>
+      <option value="حفظ لعدم الأهمية">حفظ لعدم الأهمية</option>
+      <option value="جزاء تأديبي">جزاء تأديبي</option>
+      <option value="دعوى تأديبية">دعوى تأديبية</option>
+      <option value="اختصاص">اختصاص</option>
+      <option value="ضم">ضم</option>
+      <option value="جشني معلق">جشني معلق</option>
+    </select>
+    <select id="sort" onchange="render()">
+      <option value="id-asc">رقم ↑</option>
+      <option value="id-desc">رقم ↓</option>
+      <option value="date-asc">تاريخ الإحالة ↑</option>
+      <option value="date-desc">تاريخ الإحالة ↓</option>
+      <option value="days-desc">مدة التحقيق ↓</option>
+    </select>
+    <select id="flt-special" onchange="render()" title="تصفية خاصة">
+      <option value="">بدون تصفية خاصة</option>
+      <option value="late">متأخرة +90 يوم</option>
+      <option value="old">من سنوات سابقة</option>
+    </select>
+    <button class="btn" onclick="resetFilters()" title="مسح البحث والتصفية">↻ إعادة الضبط</button>
+  </div>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <colgroup><col style="width:55px"><col><col style="width:160px"><col style="width:80px"><col style="width:115px"><col style="width:70px"><col style="width:80px"><col style="width:45px"></colgroup>
+        <thead><tr>
+          <th>رقم</th><th>الموضوع</th><th>الجهة</th><th>الإحالة</th><th>الحالة</th><th>المدة</th><th>المطلوبون / المذكرة</th><th></th>
+        </tr></thead>
+        <tbody id="tbl-body"><tr><td style="font-weight:700">19</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="ما أبلغت به رئاسة المجلس بخصوص تعدي امين ثابت وحدة كفر شاهين">ما أبلغت به رئاسة المجلس بخصوص تعدي امين ثابت وحدة كفر شاهين</td><td><span class="entity-tag">وزارة التنمية المحلية</span></td><td>01/01</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">97 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(19)">✎</button></td></tr><tr><td style="font-weight:700">20</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="شكوى ممرضة هدي تضرر من تذاكر مستشفى زفتى">شكوى ممرضة هدي تضرر من تذاكر مستشفى زفتى</td><td><span class="entity-tag">وزارة الصحة والسكان</span></td><td>01/01</td><td><span class="badge b-hafz2">حفظ لعدم الأهمية</span></td><td><span class="day-badge">108 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(20)">✎</button></td></tr><tr><td style="font-weight:700">21</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="شكوى محمد صوابي عتريس">شكوى محمد صوابي عتريس</td><td><span class="entity-tag">وزارة التنمية المحلية</span></td><td>01/01</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">108 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(21)">✎</button></td></tr><tr><td style="font-weight:700">22</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="متغير المكاني رقم 607580 بناحية الشبرا ملس">متغير المكاني رقم 607580 بناحية الشبرا ملس</td><td><span class="entity-tag">وزارة التنمية المحلية</span></td><td>01/01</td><td><span class="badge b-tahqiq">تحقيق</span></td><td><span class="day-badge">255 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(22)">✎</button></td></tr><tr><td style="font-weight:700">23</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="بلاغ ضد مسعد فتحي لزرع أعمدة سنبو الكبرى">بلاغ ضد مسعد فتحي لزرع أعمدة سنبو الكبرى</td><td><span class="entity-tag">وزارة التنمية المحلية</span></td><td>01/01</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">255 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(23)">✎</button></td></tr><tr><td style="font-weight:700">24</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="شكوى احمد ابو الفتوح معلم ضد المدرسة عبير">شكوى احمد ابو الفتوح معلم ضد المدرسة عبير</td><td><span class="entity-tag">وزارة التربية والتعليم والتعليم الفني</span></td><td>01/01</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">53 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(24)">✎</button></td></tr><tr><td style="font-weight:700">25</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="اعمال صيرافية شبراملس عوائد عن عام 2024">اعمال صيرافية شبراملس عوائد عن عام 2024</td><td><span class="entity-tag">الضرائب العقارية</span></td><td>01/01</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">86 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(25)">✎</button></td></tr><tr><td style="font-weight:700">26</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="افراد 302 رصف الطرق">افراد 302 رصف الطرق</td><td><span class="entity-tag">وزارة التنمية المحلية</span></td><td>01/01</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">53 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(26)">✎</button></td></tr><tr><td style="font-weight:700">27</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="افراد 771 لسنة 2025 الزراعة انقطاع العامل سعد عن العمل">افراد 771 لسنة 2025 الزراعة انقطاع العامل سعد عن العمل</td><td><span class="entity-tag">وزارة الزراعة واستصلاح الأراضي</span></td><td>01/01</td><td><span class="badge b-tahqiq">تحقيق</span></td><td><span class="day-badge">255 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(27)">✎</button></td></tr><tr><td style="font-weight:700">138</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="افراد شكوى خديجة ضد مدير مدرسة 748">افراد شكوى خديجة ضد مدير مدرسة 748</td><td><span class="entity-tag">وزارة التربية والتعليم والتعليم الفني</span></td><td>01/02</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">22 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(138)">✎</button></td></tr><tr><td style="font-weight:700">141</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="شكوى فقد ملف التصالح الخاص بالمواطن عزت الخولي">شكوى فقد ملف التصالح الخاص بالمواطن عزت الخولي</td><td><span class="entity-tag">داخلي</span></td><td>01/02</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">58 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(141)">✎</button></td></tr><tr><td style="font-weight:700">142</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="افراد تامر عبدالحميد">افراد تامر عبدالحميد</td><td><span class="entity-tag">وزارة الموارد المائية والري</span></td><td>01/02</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">85 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(142)">✎</button></td></tr><tr><td style="font-weight:700">151</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="ش عبد العظيم فتوح الوحدة المحلية بقرية سنبو الكبرى">ش عبد العظيم فتوح الوحدة المحلية بقرية سنبو الكبرى</td><td><span class="entity-tag">وزارة التنمية المحلية</span></td><td>01/02</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">77 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(151)">✎</button></td></tr><tr><td style="font-weight:700">152</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="شكوى حسن طه حسن لعدم الحاق نجلته بالمدرسة القريبة">شكوى حسن طه حسن لعدم الحاق نجلته بالمدرسة القريبة</td><td><span class="entity-tag">وزارة التربية والتعليم والتعليم الفني</span></td><td>01/02</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">61 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(152)">✎</button></td></tr><tr><td style="font-weight:700">153</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="شكوى سعد طه سعد ضد موجه المكتبات">شكوى سعد طه سعد ضد موجه المكتبات</td><td><span class="entity-tag">وزارة التربية والتعليم والتعليم الفني</span></td><td>01/02</td><td><span class="badge b-hafz">حفظ إداري</span></td><td><span class="day-badge">28 يوم</span></td><td style="font-size:12px"></td><td><button class="btn sm" onclick="openEdit(153)">✎</button></td></tr></tbody>
+      </table>
+    </div>
+    <div class="pages" id="pages"><button class="btn sm" onclick="goPage(0)" disabled="">›</button><span>صفحة 1 من 2 (26 نتيجة)</span><button class="btn sm" onclick="goPage(2)">‹</button></div>
+  </div>
+</div>
+
+<!-- AGENDA TAB -->
+<div id="view-agenda" class="view">
+  <div id="agenda-cont"></div>
+</div>
+
+<!-- MONTHLY TAB -->
+<div id="view-monthly" class="view">
+  <div class="toolbar">
+    <select id="m-month">
+      <option value="1">يناير</option><option value="2">فبراير</option><option value="3">مارس</option>
+      <option value="4">أبريل</option><option value="5">مايو</option><option value="6">يونيو</option>
+      <option value="7">يوليو</option><option value="8">أغسطس</option><option value="9">سبتمبر</option>
+      <option value="10">أكتوبر</option><option value="11">نوفمبر</option><option value="12">ديسمبر</option>
+    </select>
+    <select id="m-year"><option value="2025">2025</option><option value="2026" selected="">2026</option></select>
+    <button class="btn" onclick="renderMonthly()">عرض</button>
+    <button class="btn" onclick="window.print()">طباعة</button>
+    <span style="font-size:11px;color:var(--text-faint);margin-right:8px">لقطة لكل ما بيد العضو حتى نهاية الشهر المحدد</span>
+  </div>
+  <div id="monthly-out"></div>
+</div>
+
+</div><!-- end wrap -->
+
+<!-- MAIN MODAL -->
+<div id="modal" class="modal-overlay">
+<div class="modal">
+  <h3 id="modal-title">إضافة قضية</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div class="form-row"><label>رقم القضية *</label><input type="number" id="f-id" placeholder="مثال: 301"></div>
+    <div class="form-row"><label>تاريخ الإحالة</label><input type="date" id="f-ref-date"></div>
+  </div>
+  <div class="form-row"><label>موضوع القضية</label><textarea id="f-subject" rows="2"></textarea></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div class="form-row">
+      <label>الجهة الإدارية</label>
+      <input type="text" id="f-entity" list="entity-list" placeholder="اختر أو اكتب">
+      <datalist id="entity-list">
+        <option value="وزارة التنمية المحلية"></option><option value="وزارة التربية والتعليم والتعليم الفني">
+        </option><option value="وزارة الصحة والسكان"></option><option value="وزارة الزراعة واستصلاح الأراضي">
+        </option><option value="وزارة الموارد المائية والري"></option><option value="وزارة المالية">
+        </option><option value="وزارة التضامن الاجتماعي"></option><option value="وزارة الكهرباء والطاقة المتجددة">
+        </option><option value="الضرائب العقارية"></option><option value="داخلي">
+      </option></datalist>
+    </div>
+    <div class="form-row">
+      <label>الحالة الحالية</label>
+      <select id="f-disp">
+        <option value="تحقيق">قيد التحقيق</option>
+        <option value="عرض">عرض (جاري كتابة المذكرة)</option>
+        <option value="حفظ إداري">حفظ إداري</option>
+        <option value="حفظ لعدم الأهمية">حفظ لعدم الأهمية</option>
+        <option value="جزاء تأديبي">جزاء تأديبي</option>
+        <option value="دعوى تأديبية">دعوى تأديبية</option>
+        <option value="اختصاص">اختصاص</option>
+        <option value="ضم">ضم</option>
+        <option value="جشني معلق">جشني معلق (بانتظار قرار المكتب الفني)</option>
+      </select>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div class="form-row"><label>تاريخ التصرف الأخير</label><input type="date" id="f-disp-date"></div>
+    <div class="form-row"><label>ميعاد الجلسة القادمة</label><input type="date" id="f-session-date"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div class="form-row"><label>رابط مذكرة التصرف</label><input type="url" id="f-memo-doc" placeholder="https://drive.google.com/..."></div>
+    <div class="form-row"><label>رابط آخر (اختياري)</label><input type="url" id="f-memo" placeholder="https://..."></div>
+  </div>
+
+  <!-- EVENTS SECTION -->
+  <div class="ev-section">
+    <div class="ev-section-title">
+      <span>سجل الأحداث والمراحل</span>
+      <button class="btn sm" onclick="addEvent()" type="button">＋ إضافة حدث</button>
+    </div>
+    <div id="auto-msg" style="display:none;font-size:12px;color:var(--green-tx);background:var(--green-bg);padding:5px 10px;border-radius:6px;margin-bottom:8px"></div>
+    <div class="ev-col-hdr"><span>التاريخ</span><span>نوع الحدث</span><span>الجهة</span><span>القرار / الملاحظة</span><span></span></div>
+    <div id="ev-form-list"></div>
+  </div>
+
+  <!-- REQUIREES SECTION -->
+  <div class="req-section">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span style="font-size:13px;font-weight:700">المطلوبون للجلسة القادمة</span>
+      <button class="btn sm" onclick="addRequiree()" type="button">＋ إضافة مطلوب</button>
+    </div>
+    <div id="req-form-list"></div>
+  </div>
+
+  <div class="modal-actions">
+    <button class="btn primary" onclick="saveCase()">✓ حفظ</button>
+    <button class="btn" onclick="closeModal()">إلغاء</button>
+    <button class="btn danger" id="del-btn" onclick="deleteCase()" style="margin-right:auto;display:none">🗑 حذف</button>
+  </div>
+</div>
+</div>
+
+<!-- TIMELINE MODAL -->
+<div id="tl-modal" class="modal-overlay">
+<div class="modal" style="max-width:500px">
+  <h3 id="tl-title">سجل أحداث القضية</h3>
+  <div id="tl-body"></div>
+  <div class="modal-actions"><button class="btn" onclick="document.getElementById('tl-modal').classList.remove('show')">إغلاق</button></div>
+</div>
+</div>
+
+<!-- IMPORT INPUT -->
+<input type="file" id="import-input" accept=".json" style="display:none" onchange="handleImport(event)">
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+var MONTHS=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+var STORAGE_KEY='zafta_v3';
+var PAGE_SIZE=15;
+var page=1,editingId=null,formReqs=[],formEvents=[];
+
+var EVENT_TYPES=['إحالة للنيابة','عرض على مدير النيابة','إدراج في الجشني','طلب استيفاء من المكتب الفني','طلب استيفاء من لجنة التأديب','طلب استيفاء من المحكمة','تأييد القرار','إعادة للتحقيق','صدور حكم المحكمة','ملاحظة'];
+var EVENT_PARTIES=['مدير النيابة','المكتب الفني','لجنة التأديب','المحكمة التأديبية','النيابة الإدارية العليا','أخرى'];
+
+var INIT=[{"id":19,"subject":"ما أبلغت به رئاسة المجلس بخصوص تعدي امين ثابت وحدة كفر شاهين","referral_date":"2026-01-01","entity":"وزارة التنمية المحلية","disposition":"حفظ إداري","disposition_date":"2026-04-08","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":20,"subject":"شكوى ممرضة هدي تضرر من تذاكر مستشفى زفتى","referral_date":"2026-01-01","entity":"وزارة الصحة والسكان","disposition":"حفظ لعدم الأهمية","disposition_date":"2026-04-19","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":21,"subject":"شكوى محمد صوابي عتريس","referral_date":"2026-01-01","entity":"وزارة التنمية المحلية","disposition":"حفظ إداري","disposition_date":"2026-04-19","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":22,"subject":"متغير المكاني رقم 607580 بناحية الشبرا ملس","referral_date":"2026-01-01","entity":"وزارة التنمية المحلية","disposition":"تحقيق","disposition_date":"","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":23,"subject":"بلاغ ضد مسعد فتحي لزرع أعمدة سنبو الكبرى","referral_date":"2026-01-01","entity":"وزارة التنمية المحلية","disposition":"حفظ إداري","disposition_date":"","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":24,"subject":"شكوى احمد ابو الفتوح معلم ضد المدرسة عبير","referral_date":"2026-01-01","entity":"وزارة التربية والتعليم والتعليم الفني","disposition":"حفظ إداري","disposition_date":"2026-02-23","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":25,"subject":"اعمال صيرافية شبراملس عوائد عن عام 2024","referral_date":"2026-01-01","entity":"الضرائب العقارية","disposition":"حفظ إداري","disposition_date":"2026-03-28","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":26,"subject":"افراد 302 رصف الطرق","referral_date":"2026-01-01","entity":"وزارة التنمية المحلية","disposition":"حفظ إداري","disposition_date":"2026-02-23","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":27,"subject":"افراد 771 لسنة 2025 الزراعة انقطاع العامل سعد عن العمل","referral_date":"2026-01-01","entity":"وزارة الزراعة واستصلاح الأراضي","disposition":"تحقيق","disposition_date":"","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":138,"subject":"افراد شكوى خديجة ضد مدير مدرسة 748","referral_date":"2026-02-01","entity":"وزارة التربية والتعليم والتعليم الفني","disposition":"حفظ إداري","disposition_date":"2026-02-23","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":141,"subject":"شكوى فقد ملف التصالح الخاص بالمواطن عزت الخولي","referral_date":"2026-02-01","entity":"داخلي","disposition":"حفظ إداري","disposition_date":"2026-03-31","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":142,"subject":"افراد تامر عبدالحميد","referral_date":"2026-02-01","entity":"وزارة الموارد المائية والري","disposition":"حفظ إداري","disposition_date":"2026-04-27","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":151,"subject":"ش عبد العظيم فتوح الوحدة المحلية بقرية سنبو الكبرى","referral_date":"2026-02-01","entity":"وزارة التنمية المحلية","disposition":"حفظ إداري","disposition_date":"2026-04-19","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":152,"subject":"شكوى حسن طه حسن لعدم الحاق نجلته بالمدرسة القريبة","referral_date":"2026-02-01","entity":"وزارة التربية والتعليم والتعليم الفني","disposition":"حفظ إداري","disposition_date":"2026-04-03","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":153,"subject":"شكوى سعد طه سعد ضد موجه المكتبات","referral_date":"2026-02-01","entity":"وزارة التربية والتعليم والتعليم الفني","disposition":"حفظ إداري","disposition_date":"2026-03-01","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":225,"subject":"بلاغ مديرية الصحة بشأن ملاحظة الجهاز المركزي على منظومة النظافة بمستشفى زفتى","referral_date":"2026-04-01","entity":"وزارة الصحة والسكان","disposition":"حفظ لعدم الأهمية","disposition_date":"2026-05-18","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":226,"subject":"افراد انقطاع احمد فريد توفيق الهلباوي","referral_date":"2026-03-01","entity":"وزارة الصحة والسكان","disposition":"تحقيق","disposition_date":"","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":227,"subject":"شكوى أسماء حسن الجوهري ضد المختصين بالتأمينات","referral_date":"2026-03-01","entity":"وزارة المالية","disposition":"حفظ لعدم الأهمية","disposition_date":"2026-05-18","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":241,"subject":"قسائم التحصيل الممزقة والتأخر في التحصيل مستشفى زفتى","referral_date":"2026-04-01","entity":"وزارة الصحة والسكان","disposition":"حفظ لعدم الأهمية","disposition_date":"2026-05-18","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":269,"subject":"بلاغ المتغيرات المكانية رقم 202177 بندر زفتى","referral_date":"2026-03-01","entity":"وزارة التنمية المحلية","disposition":"حفظ إداري","disposition_date":"2026-04-27","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":287,"subject":"بلاغ الصحة بشأن مستحقات النفايات","referral_date":"2026-04-01","entity":"وزارة الصحة والسكان","disposition":"حفظ لعدم الأهمية","disposition_date":"2026-04-27","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":288,"subject":"بلاغ الطب البيطري التعدي على مديرة المدرسة","referral_date":"2026-04-01","entity":"وزارة الزراعة واستصلاح الأراضي","disposition":"اختصاص","disposition_date":"2026-04-27","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":289,"subject":"شكوى أحمد السعيد محمد سويلم ضد المختصين بوحدة سنباط","referral_date":"2026-04-01","entity":"وزارة التنمية المحلية","disposition":"حفظ إداري","disposition_date":"2026-04-27","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":341,"subject":"بلاغ ضرائب","referral_date":"2026-05-03","entity":"وزارة المالية","disposition":"حفظ إداري","disposition_date":"2026-05-18","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":400,"subject":"متغيرات","referral_date":"2026-05-05","entity":"وزارة التنمية المحلية","disposition":"حفظ إداري","disposition_date":"2026-05-18","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]},
+{"id":440,"subject":"بلاغ زراعة","referral_date":"2026-05-03","entity":"وزارة الزراعة واستصلاح الأراضي","disposition":"حفظ إداري","disposition_date":"2026-06-01","memo_link":"","memo_doc_link":"","session_date":"","requirees":[],"events":[]}];
+
+function loadCases(){var r=localStorage.getItem(STORAGE_KEY);if(r){try{var d=JSON.parse(r);d.forEach(function(c){if(!c.events)c.events=[];if(!c.requirees)c.requirees=[];});return d;}catch(e){}}localStorage.setItem(STORAGE_KEY,JSON.stringify(INIT));return INIT;}
+function saveCases(d){localStorage.setItem(STORAGE_KEY,JSON.stringify(d));}
+function getCases(){return loadCases();}
+
+function parseLocalDate(s){if(!s)return null;var p=s.split('-').map(Number);return new Date(p[0],p[1]-1,p[2]);}
+function todayISO(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function daysBetween(a,b){if(!a)return null;var x=parseLocalDate(a),y=b?parseLocalDate(b):parseLocalDate(todayISO());return Math.max(0,Math.round((y-x)/86400000));}
+function fmtDate(s){if(!s)return'—';var p=s.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+function fmtShort(s){if(!s)return'—';var p=s.split('-');return p[2]+'/'+p[1];}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+var DONE_DISPS=['حفظ إداري','حفظ لعدم الأهمية','جزاء تأديبي','دعوى تأديبية','اختصاص','ضم'];
+function isDone(c){return DONE_DISPS.indexOf(c.disposition)>=0;}
+function badgeCls(d){
+  var m={'تحقيق':'b-tahqiq','عرض':'b-ard','حفظ إداري':'b-hafz','حفظ لعدم الأهمية':'b-hafz2','جزاء تأديبي':'b-jazaa','دعوى تأديبية':'b-dawaa','اختصاص':'b-ikhtisas','ضم':'b-hafz2','جشني معلق':'b-jashni'};
+  return m[d]||'b-hafz2';
+}
+
+function switchTab(id,el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById('view-'+id).classList.add('active');
+  if(id==='agenda')renderAgenda();
+  if(id==='monthly'){document.getElementById('m-month').value=new Date().getMonth()+1;renderMonthly();}
+}
+
+function updateStats(){
+  var all=getCases();
+  var inv=all.filter(function(c){return c.disposition==='تحقيق';}).length;
+  var ard=all.filter(function(c){return c.disposition==='عرض';}).length;
+  var jashni=all.filter(function(c){return c.disposition==='جشني معلق';}).length;
+  var done=all.filter(isDone).length;
+  var rate=all.length?Math.round(done/all.length*100):0;
+  var doneArr=all.filter(function(c){return isDone(c)&&c.disposition_date;});
+  var avg=doneArr.length?Math.round(doneArr.reduce(function(s,c){return s+(daysBetween(c.referral_date,c.disposition_date)||0);},0)/doneArr.length):0;
+  document.getElementById('stats-grid').innerHTML=
+    stat(all.length,'إجمالي القضايا','')+stat(inv,'قيد التحقيق','warn')+stat(ard,'عرض (المذكرة)','ard')+
+    stat(jashni,'جشني معلق','jashni')+stat(done,'تم التصرف','')+stat(rate+'%','نسبة الإنجاز','hl')+stat(avg+' يوم','متوسط المدة','');
+  document.getElementById('sub-line').textContent='إجمالي '+all.length+' قضية — '+inv+' قيد التحقيق — '+ard+' عرض — '+jashni+' جشني — نسبة الإنجاز '+rate+'%';
+  var ht=document.getElementById('hs-total');if(ht)ht.querySelector('.v').textContent=all.length;
+  var hp=document.getElementById('hs-pending');if(hp)hp.querySelector('.v').textContent=inv+ard;
+  var hr=document.getElementById('hs-rate');if(hr)hr.querySelector('.v').textContent=rate+'%';
+  fillEntityFilter();
+  renderAlerts(all);
+}
+
+function renderAlerts(all){
+  var open=all.filter(function(c){return c.disposition==='تحقيق'||c.disposition==='عرض'||c.disposition==='جشني معلق';});
+  // قضايا تجاوزت 90 يوماً
+  var late=open.filter(function(c){return daysBetween(c.referral_date,null)>90;});
+  // قضايا من سنوات سابقة
+  var curYear=new Date().getFullYear();
+  var old=open.filter(function(c){return c.referral_date&&new Date(c.referral_date).getFullYear()<curYear;});
+
+  var cont=document.getElementById('alerts-cont');
+  if(!cont)return;
+  if(!late.length&&!old.length){cont.innerHTML='';return;}
+
+  var html='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">';
+
+  // بطاقة التأخر
+  if(late.length){
+    html+='<div style="background:var(--amber-bg);border:1px solid #EF9F27;border-radius:12px;padding:14px 16px">';
+    html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">';
+    html+='<span style="font-size:20px">⏱</span>';
+    html+='<div><div style="font-size:20px;font-weight:700;color:var(--amber-tx)">'+late.length+'</div>';
+    html+='<div style="font-size:11px;color:var(--amber-tx)">قضية تجاوزت 90 يوماً بلا تصرف</div></div></div>';
+    html+='<div style="display:flex;flex-direction:column;gap:4px">';
+    late.sort(function(a,b){return daysBetween(b.referral_date,null)-daysBetween(a.referral_date,null);}).forEach(function(c){
+      var d=daysBetween(c.referral_date,null);
+      html+='<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.5);border-radius:6px;padding:5px 9px;font-size:12px">';
+      html+='<span><strong>#'+c.id+'</strong> — '+esc(c.subject.substring(0,35))+(c.subject.length>35?'...':'')+'</span>';
+      html+='<span style="font-size:11px;font-weight:700;color:var(--amber-tx);white-space:nowrap;margin-right:8px">'+d+' يوم</span>';
+      html+='<button class="btn sm" onclick="openEdit('+c.id+')" style="padding:2px 7px;font-size:10px">✎</button>';
+      html+='</div>';
+    });
+    html+='</div></div>';
+  } else {
+    html+='<div style="background:var(--green-bg);border:1px solid #8BC34A;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px">';
+    html+='<span style="font-size:24px">✓</span>';
+    html+='<div style="font-size:13px;color:var(--green-tx);font-weight:500">لا توجد قضايا متأخرة أكثر من 90 يوماً</div>';
+    html+='</div>';
+  }
+
+  // بطاقة القضايا القديمة
+  if(old.length){
+    html+='<div style="background:var(--red-bg);border:1px solid #f0a8a8;border-radius:12px;padding:14px 16px">';
+    html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">';
+    html+='<span style="font-size:20px">📂</span>';
+    html+='<div><div style="font-size:20px;font-weight:700;color:var(--red-tx)">'+old.length+'</div>';
+    html+='<div style="font-size:11px;color:var(--red-tx)">قضية من سنوات سابقة لا تزال مفتوحة</div></div></div>';
+    html+='<div style="display:flex;flex-direction:column;gap:4px">';
+    old.sort(function(a,b){return(a.referral_date||'').localeCompare(b.referral_date||'');}).forEach(function(c){
+      var yr=c.referral_date?new Date(c.referral_date).getFullYear():'';
+      html+='<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.5);border-radius:6px;padding:5px 9px;font-size:12px">';
+      html+='<span><strong>#'+c.id+'</strong> — '+esc(c.subject.substring(0,35))+(c.subject.length>35?'...':'')+'</span>';
+      html+='<span style="font-size:11px;font-weight:700;color:var(--red-tx);white-space:nowrap;margin-right:8px">'+yr+'</span>';
+      html+='<button class="btn sm" onclick="openEdit('+c.id+')" style="padding:2px 7px;font-size:10px">✎</button>';
+      html+='</div>';
+    });
+    html+='</div></div>';
+  } else {
+    html+='<div style="background:var(--green-bg);border:1px solid #8BC34A;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px">';
+    html+='<span style="font-size:24px">✓</span>';
+    html+='<div style="font-size:13px;color:var(--green-tx);font-weight:500">لا توجد قضايا من سنوات سابقة مفتوحة</div>';
+    html+='</div>';
+  }
+
+  html+='</div>';
+  cont.innerHTML=html;
+}
+function stat(v,l,cls){
+  var extra=cls==='warn'?' warn':cls==='hl'?' hl':cls==='jashni'?' warn':cls==='ard'?' hl':'';
+  return'<div class="stat'+extra+'"><div class="val">'+v+'</div><div class="lbl">'+l+'</div></div>';
+}
+function fillEntityFilter(){
+  var sel=document.getElementById('flt-entity');var cur=sel.value;
+  var ents=[...new Set(getCases().map(function(c){return c.entity;}).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">كل الجهات</option>';
+  ents.forEach(function(e){var o=document.createElement('option');o.value=e;o.textContent=e;if(e===cur)o.selected=true;sel.appendChild(o);});
+}
+
+function getFiltered(){
+  var q=document.getElementById('search').value.trim().toLowerCase();
+  var fe=document.getElementById('flt-entity').value;
+  var fd=document.getElementById('flt-disp').value;
+  var srt=document.getElementById('sort').value;
+  var data=getCases().slice();
+  if(q)data=data.filter(function(c){return [c.id,c.subject,c.entity,c.disposition].some(function(v){return String(v||'').toLowerCase().includes(q);});});
+  if(fe)data=data.filter(function(c){return c.entity===fe;});
+  if(fd)data=data.filter(function(c){return c.disposition===fd;});
+  var sp=document.getElementById('flt-special').value;
+  var curYear=new Date().getFullYear();
+  var openDisps=['تحقيق','عرض','جشني معلق'];
+  if(sp==='late')data=data.filter(function(c){return openDisps.indexOf(c.disposition)>=0&&daysBetween(c.referral_date,null)>90;});
+  else if(sp==='old')data=data.filter(function(c){return openDisps.indexOf(c.disposition)>=0&&c.referral_date&&new Date(c.referral_date).getFullYear()<curYear;});
+  if(srt==='id-asc')data.sort(function(a,b){return a.id-b.id;});
+  else if(srt==='id-desc')data.sort(function(a,b){return b.id-a.id;});
+  else if(srt==='date-asc')data.sort(function(a,b){return(a.referral_date||'').localeCompare(b.referral_date||'');});
+  else if(srt==='date-desc')data.sort(function(a,b){return(b.referral_date||'').localeCompare(a.referral_date||'');});
+  else if(srt==='days-desc')data.sort(function(a,b){return(daysBetween(b.referral_date,b.disposition_date)||0)-(daysBetween(a.referral_date,a.disposition_date)||0);});
+  return data;
+}
+
+function resetFilters(){
+  ['search','flt-entity','flt-disp','flt-special'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('sort').value='id-asc';render();document.getElementById('search').focus();
+}
+
+function render(){page=1;renderTable();updateStats();}
+
+function renderTable(){
+  var filtered=getFiltered();var total=filtered.length;
+  var pages=Math.ceil(total/PAGE_SIZE)||1;if(page>pages)page=pages;
+  var slice=filtered.slice((page-1)*PAGE_SIZE,page*PAGE_SIZE);
+  var tbody=document.getElementById('tbl-body');
+  if(!slice.length){tbody.innerHTML='<tr><td colspan="8" class="no-data">لا توجد قضايا مطابقة</td></tr>';document.getElementById('pages').innerHTML='';return;}
+  tbody.innerHTML=slice.map(function(c){
+    var days=daysBetween(c.referral_date,isDone(c)&&c.disposition_date?c.disposition_date:null);
+    var actualD=calcActualDays(c);
+    var daysStr=days!==null?'<span class="day-badge">'+days+' يوم</span>':'—';
+    if(actualD!==null&&actualD!==days)daysStr+='<br><span class="day-badge" style="background:var(--green-bg);color:var(--green-tx);margin-top:2px;display:inline-block" title="مدة التحقيق الفعلي بيد العضو">'+actualD+' فعلي</span>';
+    var memo=c.memo_doc_link?'<a href="'+esc(c.memo_doc_link)+'" target="_blank" rel="noopener" style="font-size:11px;color:var(--blue-tx)">📄 المذكرة</a>':'';
+    var rn=(c.requirees||[]).length;
+    var evn=(c.events||[]).length;
+    var extra='';
+    if(rn)extra+='<br><span class="day-badge" style="margin-top:3px;display:inline-block">'+rn+' مطلوب</span>';
+    if(evn)extra+='<br><span class="day-badge" style="margin-top:3px;display:inline-block;cursor:pointer;color:var(--purple-tx)" onclick="openTimeline('+c.id+')">'+evn+' حدث ↗</span>';
+    return'<tr><td data-label="رقم القضية" style="font-weight:700">'+c.id+'</td>'+
+      '<td data-label="موضوع القضية" style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+esc(c.subject)+'">'+esc(c.subject)+'</td>'+
+      '<td data-label="الجهة"><span class="entity-tag">'+esc(c.entity||'—')+'</span></td>'+
+      '<td data-label="تاريخ الإحالة">'+fmtShort(c.referral_date)+'</td>'+
+      '<td data-label="الحالة"><span class="badge '+badgeCls(c.disposition)+'">'+esc(c.disposition)+'</span></td>'+
+      '<td data-label="المدة">'+daysStr+'</td>'+
+      '<td data-label="المرفقات" style="font-size:12px">'+(memo+extra||'—')+'</td>'+
+      '<td><button class="btn sm" onclick="openEdit('+c.id+')">✎ تعديل القضية</button></td></tr>';
+  }).join('');
+  var pEl=document.getElementById('pages');
+  if(pages<=1){pEl.innerHTML='<span>'+total+' نتيجة</span>';return;}
+  var start=Math.max(1,page-2),finish=Math.min(pages,start+4);start=Math.max(1,finish-4);
+  var nums='';for(var n=start;n<=finish;n++)nums+='<button class="btn page-num'+(n===page?' active':'')+'" onclick="goPage('+n+')" aria-label="صفحة '+n+'"'+(n===page?' aria-current="page"':'')+'>'+n+'</button>';
+  pEl.innerHTML=nums+'<span class="page-summary">صفحة '+page+' من '+pages+' — '+total+' قضية</span>';
+}
+function goPage(p){page=p;renderTable();document.querySelector('.table-wrap').scrollIntoView({behavior:'smooth',block:'start'});}
+
+function renderAgenda(){
+  var td=new Date().toISOString().split('T')[0];
+  var wk=new Date(Date.now()+7*86400000).toISOString().split('T')[0];
+  var items=getCases().filter(function(c){return(c.disposition==='تحقيق'||c.disposition==='عرض')&&c.session_date&&c.session_date>=td;});
+  items.sort(function(a,b){return a.session_date.localeCompare(b.session_date);});
+  var cont=document.getElementById('agenda-cont');
+  if(!items.length){cont.innerHTML='<div class="no-data" style="background:var(--card);border:1px solid var(--border-soft);border-radius:12px">لا توجد جلسات قادمة مجدولة</div>';return;}
+  cont.innerHTML=items.map(function(c){
+    var urgent=c.session_date<=wk;
+    var reqs=(c.requirees||[]).filter(function(r){return r.name;});
+    var reqH=reqs.length?reqs.map(function(r){
+      var att=r.attendance==='حضر'?'<span class="att-state att-yes">حضر</span>':r.attendance==='لم يحضر'?'<span class="att-state att-no">لم يحضر</span>':'<span class="att-state att-pending">لم يُخطر</span>';
+      return'<div class="req-item-view"><span><strong>'+esc(r.name)+'</strong>'+(r.role?' — '+esc(r.role):'')+(r.phone?' · '+esc(r.phone):'')+'</span>'+att+'</div>';
+    }).join(''):'<div style="font-size:12px;color:var(--text-faint)">لا مطلوبون مسجلون</div>';
+    return'<div class="agenda-card'+(urgent?' urgent':'')+'"><div class="agenda-head"><span class="id">قضية #'+c.id+'</span><span class="date">📅 '+fmtDate(c.session_date)+(urgent?' — قريباً':'')+'</span></div><div class="agenda-subj">'+esc(c.subject)+'</div>'+reqH+'</div>';
+  }).join('');
+}
+
+// Monthly stats (snapshot)
+function renderMonthly(){
+  var month=parseInt(document.getElementById('m-month').value);
+  var year=parseInt(document.getElementById('m-year').value);
+  var end=new Date(year,month,0);end.setHours(23,59,59);
+  var all=getCases();
+  var snap=all.filter(function(c){return c.referral_date&&new Date(c.referral_date)<=end;});
+  var doneList=snap.filter(function(c){return isDone(c)&&c.disposition_date&&new Date(c.disposition_date)<=end;});
+  var total=snap.length,done=doneList.length,rem=total-done,pct=total?Math.round(done/total*100):0;
+  var remList=snap.filter(function(c){return doneList.indexOf(c)<0;});
+  var inv=remList.filter(function(c){return c.disposition==='تحقيق';}).length;
+  var ard=remList.filter(function(c){return c.disposition==='عرض';}).length;
+  var jashni=remList.filter(function(c){return c.disposition==='جشني معلق';}).length;
+  var openDisps=['تحقيق','عرض','جشني معلق'];
+  var lateSnap=remList.filter(function(c){return openDisps.indexOf(c.disposition)>=0&&daysBetween(c.referral_date,year+'-'+String(month).padStart(2,'0')+'-'+String(end.getDate()).padStart(2,'0'))>90;});
+  var oldSnap=remList.filter(function(c){return openDisps.indexOf(c.disposition)>=0&&c.referral_date&&parseLocalDate(c.referral_date).getFullYear()<year;});
+
+  var DEPTS=['وزارة التنمية المحلية','وزارة التربية والتعليم والتعليم الفني','وزارة الصحة والسكان','وزارة الزراعة واستصلاح الأراضي','وزارة الموارد المائية والري','وزارة المالية','وزارة التضامن الاجتماعي','وزارة الكهرباء والطاقة المتجددة','الضرائب العقارية','داخلي'];
+  var maxD=1;
+  var deptData=DEPTS.map(function(d){
+    var dc=snap.filter(function(c){return c.entity===d;});
+    var dn=doneList.filter(function(c){return c.entity===d;}).length;
+    if(dc.length>maxD)maxD=dc.length;
+    return{d:d,total:dc.length,done:dn,rem:dc.length-dn};
+  }).filter(function(x){return x.total>0;});
+
+  var dispData={};
+  doneList.forEach(function(c){dispData[c.disposition]=(dispData[c.disposition]||0)+1;});
+
+  var out='<div class="month-section">';
+  out+='<div class="month-title"><span>الإحصائية الشهرية — '+MONTHS[month-1]+' '+year+' | نيابة زفتى الإدارية</span><button class="btn sm" onclick="window.print()">طباعة</button></div>';
+  out+='<div class="month-grid">';
+  out+=mstat(total,'إجمالي المحال')+mstat(done,'المنجزة','var(--green-tx)')+mstat(rem,'المتبقية','var(--red-tx)')+mstat(pct+'%','نسبة الإنجاز','var(--blue-tx)')+mstat(inv,'قيد التحقيق','')+mstat(ard,'قيد العرض','')+mstat(jashni,'جشني معلق','var(--orange-tx)');
+  out+='</div>';
+  out+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div>';
+  out+='<div style="font-size:11px;font-weight:700;color:var(--text-soft);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">توزيع حسب الجهة الإدارية</div>';
+  deptData.forEach(function(x){
+    out+='<div class="dept-row"><div class="dept-lbl" style="font-size:11px">'+esc(x.d)+'</div><div class="dept-bar"><div class="dept-fill" style="width:'+Math.round(x.total/maxD*100)+'%"></div></div><div class="dept-num">'+x.total+' ('+x.done+' منجز)</div></div>';
+  });
+  out+='</div><div>';
+  out+='<div style="font-size:11px;font-weight:700;color:var(--text-soft);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">توزيع حسب نوع التصرف</div>';
+  out+='<table style="font-size:12px"><thead><tr><th>التصرف</th><th style="text-align:center;width:50px">عدد</th><th style="text-align:center;width:50px">نسبة</th></tr></thead><tbody>';
+  Object.keys(dispData).forEach(function(k){var n=dispData[k];out+='<tr><td><span class="badge '+badgeCls(k)+'">'+esc(k)+'</span></td><td style="text-align:center">'+n+'</td><td style="text-align:center">'+Math.round(n/total*100)+'%</td></tr>';});
+  out+='<tr style="font-weight:700;border-top:2px solid var(--border-soft)"><td>الإجمالي المنجز</td><td style="text-align:center">'+done+'</td><td style="text-align:center">'+pct+'%</td></tr>';
+  out+='</tbody></table></div></div></div>';
+  // إضافة قسم التنبيهات في الإحصائية الشهرية
+  out+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">';
+  out+='<div style="background:var(--amber-bg);border:1px solid #EF9F27;border-radius:10px;padding:12px 14px">';
+  out+='<div style="font-size:13px;font-weight:700;color:var(--amber-tx);margin-bottom:6px">⏱ متأخرة أكثر من 90 يوماً: '+lateSnap.length+' قضية</div>';
+  if(lateSnap.length)out+=lateSnap.map(function(c){return'<div style="font-size:11px;padding:3px 0;border-bottom:1px solid rgba(0,0,0,.06)">#'+c.id+' — '+esc(c.subject.substring(0,40))+'</div>';}).join('');
+  else out+='<div style="font-size:12px;color:var(--amber-tx)">لا توجد</div>';
+  out+='</div>';
+  out+='<div style="background:var(--red-bg);border:1px solid #f0a8a8;border-radius:10px;padding:12px 14px">';
+  out+='<div style="font-size:13px;font-weight:700;color:var(--red-tx);margin-bottom:6px">📂 من سنوات سابقة: '+oldSnap.length+' قضية</div>';
+  if(oldSnap.length)out+=oldSnap.map(function(c){return'<div style="font-size:11px;padding:3px 0;border-bottom:1px solid rgba(0,0,0,.06)">#'+c.id+' ('+new Date(c.referral_date).getFullYear()+') — '+esc(c.subject.substring(0,40))+'</div>';}).join('');
+  else out+='<div style="font-size:12px;color:var(--red-tx)">لا توجد</div>';
+  out+='</div></div>';
+  document.getElementById('monthly-out').innerHTML=out;
+}
+function mstat(v,l,color){return'<div class="m-stat"><div class="v"'+(color?' style="color:'+color+'"':'')+'>'+v+'</div><div class="l">'+l+'</div></div>';}
+
+// حساب مدة التحقيق الفعلي من سجل الأحداث
+function calcActualDays(c){
+  var evs=(c.events||[]).filter(function(e){return e.date;}).slice().sort(function(a,b){return a.date.localeCompare(b.date);});
+  if(!evs.length) return null;
+  // نحسب مجموع الفترات التي كانت فيها القضية بيد العضو
+  // الفترة بيد العضو = من الإحالة (أو من إعادة الفتح) حتى العرض أو طلب الاستيفاء
+  var total=0;
+  var startDate=c.referral_date;
+  var outTypes=['عرض على مدير النيابة','إدراج في الجشني'];
+  var inTypes=['إعادة للتحقيق','طلب استيفاء من المكتب الفني','طلب استيفاء من لجنة التأديب','طلب استيفاء من المحكمة'];
+  var inHand=true;
+  evs.forEach(function(e){
+    if(inHand && outTypes.indexOf(e.type)>=0){
+      // خرجت من يده
+      var d=daysBetween(startDate,e.date);
+      if(d>0)total+=d;
+      inHand=false;
+    } else if(!inHand && (inTypes.indexOf(e.type)>=0||e.type==='إعادة للتحقيق')){
+      // عادت إلى يده
+      startDate=e.date;
+      inHand=true;
+    }
+  });
+  // لو لا تزال بيده حتى الآن
+  if(inHand){
+    var endDate=isDone(c)&&c.disposition_date?c.disposition_date:null;
+    var d=daysBetween(startDate,endDate);
+    if(d>0)total+=d;
+  }
+  return total>0?total:null;
+}
+
+// Timeline modal
+function openTimeline(id){
+  var c=getCases().find(function(x){return x.id===id;});if(!c)return;
+  document.getElementById('tl-title').textContent='سجل أحداث القضية #'+id;
+  var evs=(c.events||[]).slice().sort(function(a,b){return(a.date||'').localeCompare(b.date||'');});
+  var colors={'إحالة للنيابة':'#1a6fbf','عرض على مدير النيابة':'#3B6D11','إدراج في الجشني':'#8B4A00','طلب استيفاء من المكتب الفني':'#A32D2D','طلب استيفاء من لجنة التأديب':'#A32D2D','طلب استيفاء من المحكمة':'#A32D2D','تأييد القرار':'#3B6D11','إعادة للتحقيق':'#854F0B','صدور حكم المحكمة':'#5B21B6','ملاحظة':'#5b6068'};
+  // حساب مدة التحقيق الفعلي
+  var actualDays=calcActualDays(c);
+  var totalDays=daysBetween(c.referral_date,isDone(c)&&c.disposition_date?c.disposition_date:null);
+  var daysHtml='';
+  if(totalDays!==null){
+    daysHtml+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">';
+    daysHtml+='<div style="background:var(--bg);border-radius:8px;padding:10px 12px;font-size:12px"><div style="font-size:18px;font-weight:700;color:var(--text)">'+totalDays+' يوم</div><div style="color:var(--text-soft);margin-top:2px">المدة الإجمالية (من الإحالة)</div></div>';
+    if(actualDays!==null){
+      daysHtml+='<div style="background:var(--green-bg);border-radius:8px;padding:10px 12px;font-size:12px"><div style="font-size:18px;font-weight:700;color:var(--green-tx)">'+actualDays+' يوم</div><div style="color:var(--green-tx);margin-top:2px">مدة التحقيق الفعلي (بيد العضو)</div></div>';
+    }
+    daysHtml+='</div>';
+  }
+  if(!evs.length){document.getElementById('tl-body').innerHTML=daysHtml+'<div class="no-data">لا أحداث مسجلة لهذه القضية</div>';}
+  else{
+    document.getElementById('tl-body').innerHTML=daysHtml+'<div class="tl-wrap">'+evs.map(function(e){
+      var col=colors[e.type]||'#5b6068';
+      return'<div class="tl-item"><div class="tl-dot" style="background:'+col+'"></div><div class="tl-body"><div class="tl-date">'+fmtDate(e.date)+(e.party?' — '+esc(e.party):'')+'</div><div class="tl-type">'+esc(e.type)+'</div>'+(e.note?'<div class="tl-note">'+esc(e.note)+'</div>':'')+'</div></div>';
+    }).join('')+'</div>';
+  }
+  document.getElementById('tl-modal').classList.add('show');
+}
+
+// Form helpers
+function renderEventsForm(){
+  var cont=document.getElementById('ev-form-list');
+  if(!formEvents.length){cont.innerHTML='<div style="font-size:12px;color:var(--text-faint);margin-bottom:6px">لا أحداث مضافة بعد</div>';return;}
+  cont.innerHTML=formEvents.map(function(e,i){
+    var typeOpts=EVENT_TYPES.map(function(t){return'<option'+(e.type===t?' selected':'')+'>'+t+'</option>';}).join('');
+    var partyOpts=EVENT_PARTIES.map(function(p){return'<option'+(e.party===p?' selected':'')+'>'+p+'</option>';}).join('');
+    return'<div class="ev-item">'+
+      '<input type="date" value="'+esc(e.date||'')+'" oninput="formEvents['+i+'].date=this.value">'+
+      '<select onchange="onEventTypeChange('+i+',this.value)"><option value="">— نوع الحدث —</option>'+typeOpts+'</select>'+
+      '<select onchange="formEvents['+i+'].party=this.value"><option value="">— الجهة —</option>'+partyOpts+'</select>'+
+      '<input placeholder="القرار / ملاحظة" value="'+esc(e.note||'')+'" oninput="formEvents['+i+'].note=this.value">'+
+      '<span class="rm" onclick="removeEvent('+i+')">✕</span></div>';
+  }).join('');
+}
+function addEvent(){formEvents.push({date:'',type:'',party:'',note:''});renderEventsForm();}
+function onEventTypeChange(i,val){
+  formEvents[i].type=val;
+  // تحويل تلقائي للحالة عند طلب استيفاء أو إعادة فتح
+  var restoreTypes=['طلب استيفاء من المكتب الفني','طلب استيفاء من لجنة التأديب','طلب استيفاء من المحكمة','إعادة للتحقيق'];
+  if(restoreTypes.indexOf(val)>=0){
+    var dispSel=document.getElementById('f-disp');
+    if(['حفظ إداري','حفظ لعدم الأهمية','جزاء تأديبي','دعوى تأديبية','اختصاص','ضم'].indexOf(dispSel.value)>=0){
+      dispSel.value='تحقيق';
+      // مسح تاريخ التصرف لأن القضية عادت مفتوحة
+      document.getElementById('f-disp-date').value='';
+      showAutoMsg('تم تحويل الحالة تلقائياً إلى قيد التحقيق');
+    }
+  }
+  renderEventsForm();
+}
+function showAutoMsg(m){
+  var el=document.getElementById('auto-msg');if(!el)return;
+  el.textContent=m;el.style.display='block';
+  setTimeout(function(){el.style.display='none';},3000);
+}
+function removeEvent(i){formEvents.splice(i,1);renderEventsForm();}
+
+function renderReqForm(){
+  var cont=document.getElementById('req-form-list');
+  if(!formReqs.length){cont.innerHTML='<div style="font-size:12px;color:var(--text-faint);margin-bottom:6px">لا مطلوبون مضافون</div>';return;}
+  cont.innerHTML=formReqs.map(function(r,i){
+    return'<div class="req-row">'+
+      '<input placeholder="الاسم" value="'+esc(r.name||'')+'" oninput="formReqs['+i+'].name=this.value">'+
+      '<input placeholder="الصفة/الوظيفة" value="'+esc(r.role||'')+'" oninput="formReqs['+i+'].role=this.value">'+
+      '<input placeholder="الهاتف" value="'+esc(r.phone||'')+'" oninput="formReqs['+i+'].phone=this.value">'+
+      '<select onchange="formReqs['+i+'].attendance=this.value"><option'+((!r.attendance||r.attendance==='لم يُخطر')?' selected':'')+'>لم يُخطر</option><option'+(r.attendance==='حضر'?' selected':'')+'>حضر</option><option'+(r.attendance==='لم يحضر'?' selected':'')+'>لم يحضر</option></select>'+
+      '<span class="rm" onclick="removeReq('+i+')">✕</span></div>';
+  }).join('');
+}
+function addRequiree(){formReqs.push({name:'',role:'',phone:'',attendance:'لم يُخطر'});renderReqForm();}
+function removeReq(i){formReqs.splice(i,1);renderReqForm();}
+
+function openAdd(){
+  editingId=null;formReqs=[];formEvents=[];
+  document.getElementById('modal-title').textContent='إضافة قضية جديدة';
+  document.getElementById('f-id').value='';document.getElementById('f-subject').value='';
+  document.getElementById('f-entity').value='';document.getElementById('f-ref-date').value=todayISO();
+  document.getElementById('f-disp').value='تحقيق';document.getElementById('f-disp-date').value='';
+  document.getElementById('f-memo').value='';document.getElementById('f-memo-doc').value='';
+  document.getElementById('f-session-date').value='';
+  document.getElementById('del-btn').style.display='none';
+  renderEventsForm();renderReqForm();
+  document.getElementById('modal').classList.add('show');
+}
+
+function openEdit(id){
+  var c=getCases().find(function(x){return x.id===id;});if(!c)return;
+  editingId=id;formReqs=JSON.parse(JSON.stringify(c.requirees||[]));formEvents=JSON.parse(JSON.stringify(c.events||[]));
+  document.getElementById('modal-title').textContent='تعديل القضية #'+id;
+  document.getElementById('f-id').value=c.id;document.getElementById('f-subject').value=c.subject||'';
+  document.getElementById('f-entity').value=c.entity||'';document.getElementById('f-ref-date').value=c.referral_date||'';
+  document.getElementById('f-disp').value=c.disposition||'تحقيق';document.getElementById('f-disp-date').value=c.disposition_date||'';
+  document.getElementById('f-memo').value=c.memo_link||'';document.getElementById('f-memo-doc').value=c.memo_doc_link||'';
+  document.getElementById('f-session-date').value=c.session_date||'';
+  document.getElementById('del-btn').style.display='inline-flex';
+  renderEventsForm();renderReqForm();
+  document.getElementById('modal').classList.add('show');
+}
+
+function closeModal(){document.getElementById('modal').classList.remove('show');}
+
+function saveCase(){
+  var id=parseInt(document.getElementById('f-id').value);
+  if(!id||isNaN(id)){alert('رقم القضية مطلوب');return;}
+  var subject=document.getElementById('f-subject').value.trim();
+  var referralDate=document.getElementById('f-ref-date').value;
+  if(!subject){alert('موضوع القضية مطلوب');document.getElementById('f-subject').focus();return;}
+  if(!referralDate){alert('تاريخ الإحالة مطلوب');return;}
+  var entry={id:id,subject:subject,entity:document.getElementById('f-entity').value.trim(),referral_date:referralDate,disposition:document.getElementById('f-disp').value,disposition_date:document.getElementById('f-disp-date').value,memo_link:document.getElementById('f-memo').value.trim(),memo_doc_link:document.getElementById('f-memo-doc').value.trim(),session_date:document.getElementById('f-session-date').value,requirees:formReqs.filter(function(r){return r.name&&r.name.trim();}),events:formEvents.filter(function(e){return e.date||e.type;})};
+  var data=getCases();
+  if(editingId!==null){if(id!==editingId&&data.some(function(c){return c.id===id;})){alert('رقم القضية موجود بالفعل');return;}data=data.map(function(c){return c.id===editingId?entry:c;});}
+  else{if(data.find(function(c){return c.id===id;})){alert('رقم القضية موجود بالفعل');return;}data.push(entry);}
+  saveCases(data);closeModal();render();toast(editingId!==null?'تم تحديث القضية بنجاح':'تمت إضافة القضية بنجاح');
+}
+
+function deleteCase(){
+  if(!confirm('حذف هذه القضية نهائياً؟'))return;
+  saveCases(getCases().filter(function(c){return c.id!==editingId;}));closeModal();render();toast('تم حذف القضية');
+}
+
+function exportJson(){
+  var blob=new Blob([JSON.stringify(getCases(),null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);var a=document.createElement('a');
+  a.href=url;a.download='نسخة_احتياطية_زفتى_'+new Date().toISOString().split('T')[0]+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function importJson(){document.getElementById('import-input').click();}
+function handleImport(ev){
+  var file=ev.target.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{var d=JSON.parse(e.target.result);if(!Array.isArray(d))throw new Error();
+    d.forEach(function(c){if(!c.events)c.events=[];if(!c.requirees)c.requirees=[];});
+    if(!d.every(function(c){return c&&Number.isFinite(Number(c.id));}))throw new Error();
+    if(!confirm('سيتم استبدال البيانات الحالية بـ '+d.length+' قضية. هل تريد المتابعة؟'))return;
+    saveCases(d);fillEntityFilter();render();toast('تم الاستيراد بنجاح: '+d.length+' قضية');}
+    catch(err){alert('خطأ في الملف — تأكد أنه نسخة احتياطية صحيحة');}
+  };reader.readAsText(file);ev.target.value='';
+}
+
+function toast(message){var el=document.getElementById('toast');el.textContent=message;el.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(function(){el.classList.remove('show');},2600);}
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){closeModal();document.getElementById('tl-modal').classList.remove('show');}
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();document.getElementById('search').focus();}
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='n'){e.preventDefault();openAdd();}
+});
+
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+document.getElementById('tl-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});
+
+render();
+</script>
+
+</body>
+</html>
